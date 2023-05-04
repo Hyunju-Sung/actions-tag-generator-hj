@@ -1,0 +1,21 @@
+{
+  "name": "actions-tag-generator",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "ncc build index.js"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "semver": "^7.5.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.31.1"
+  },
+  "description": "### 1. Desctiption This Action is a tag generator for creating Yogiyo's Semver.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

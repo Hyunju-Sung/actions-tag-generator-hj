@@ -1,0 +1,28 @@
+name: "Generate SemVerYo Tag"
+description: "A github action to create stg and prod tags"
+
+inputs:
+  github-token:
+    description: 'Github Personal Access token. This must be a secret.'
+    required: true
+  env:
+    description: 'Environment `prd`, `stg`'
+    required: true
+  version-type:
+    description: 'The type of version tag.'
+    required: true
+  increment:
+    description: '(Optional) Increment value type. `major`, `minor`, `patch`'
+    default: ''
+outputs:
+  latest-prod-tag:
+    description: 'Latest prod tag.'
+  latest-stg-tag:
+    description: 'Latest stg tag.'
+  new-prod-tag:
+    description: 'New prod tag.'
+  new-stg-tag:
+    description: 'New stg tag.'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

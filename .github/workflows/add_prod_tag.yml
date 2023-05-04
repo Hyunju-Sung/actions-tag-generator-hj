@@ -1,0 +1,43 @@
+name: Generate Tag
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  add-prod-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Run Custom Action
+        id: generate_tag
+        uses: ./
+        with:
+          github-token: ${{ secrets.PAT_FOR_ACTIONS }}
+          version-type: 'app'
+          env: 'prd'
+          increment: 'patch'
+
+      - name: Create and push tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_FOR_ACTIONS }}
+        run: |
+          # Access the outputs using the 'steps' context
+          echo "New prd tag: ${{ steps.generate_tag.outputs.new-prd-tag }}"
+          echo "New stg tag: ${{ steps.generate_tag.outputs.new-stg-tag }}"
+          echo "Latest prd tag: ${{ steps.generate_tag.outputs.latest-prd-tag }}"
+          echo "Latest stg tag: ${{ steps.generate_tag.outputs.latest-stg-tag }}"
+          
+          # git tag push
+          git tag "${{ steps.generate_tag.outputs.new-prd-tag }}"
+          git push origin "${{ steps.generate_tag.outputs.new-prd-tag }}"
